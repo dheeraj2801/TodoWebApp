@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todos</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://kit.fontawesome.com/7f8def6a31.js" crossorigin="anonymous"></script>
+  <link href="/css/index.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="jquery-ui.min">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script language="JavaScript">
+    javascript:window.history.forward(1);
+  </script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <h3>Welcome <%= na %></h3>
+       <a class="btn btn-primary" href="/users/logout"> Logout </a>
+      </nav>
+
+    <div class="wrapper">
+        <header>Todo</header>
+        <form action="/dashboard" method="post">
+        <div class="input-field">
+            <input type="text" name="n" required="true" placeholder="Add your todo">
+            <button onclick="warning()" class="active"><i class="fas fa-plus"></i></button>
+        </div>
+        <div class="input-field">
+          <input type="text" name="na" id="datepicker" required="true" placeholder="Enter the date">
+        </div>
+        </form>
+        <% var c=newListItems.length; newListItems.forEach(function(item){ %>
+        <form action="/delete" method="post">
+    <ul class="todolist">
+      <!-- <% if(na == item.username){ %> -->
+        <% var d=item.date
+           var res=d.toString().slice(0,15) %>
+        <li><b> <%= item.name %>
+          <% var today = new Date();var pre = item.deadline;if(today.getTime() > pre.getTime()) {%> (Overdue) <% } %></b><button name="trash" value="<%= item._id %>" onClick="this.form.submit()"><i class="fas fa-trash"></i></button><br><span><i class="fas fa-calendar-alt"></i></span> <%= res %> <br> <span class="dead"><i class="fas fa-calendar-alt"></i> <%= item.deadline.toString().slice(0,15) %> </span></li>
+     <% c--; } %>
+    </ul>
+      </form>
+      <%  })  %>
+    <div class="footer">
+        <span>You have <%= newListItems.length-c %> pending tasks</span>
+    </div>
+</div>
+
+<script type="text/javascript" src="script.js"></script> 
+<script type="text/javascript" src="jquery-3.5.1.min"></script>
+<script type="text/javascript" src="jquery-ui.min"></script> 
+<script type="text/javascript">
+  $("#datepicker").datepicker({  minDate: 0 ,dateFormat: 'D d M yy' });
+  var today = new Date().toISOString().split('T')[0];
+document.getElementsByName("txtDate")[0].setAttribute('min', today);
+</script>
+</body>
+</html>
